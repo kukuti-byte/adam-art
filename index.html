@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Adam Art Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --bg:#1E1E1E; --text:#FFFFFF; --muted:#888; --accent:#FFD700; --card:#2C2C2C;
+  }
+  [data-theme="light"]{ --bg:#ffffff; --text:#1E1E1E; --accent:#FFD700; --card:#f0f0f0; --muted:#666; }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Montserrat',sans-serif}
+  body{background:var(--bg);color:var(--text);line-height:1.5;transition:background .25s,color .25s}
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav{position:sticky;top:0;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;border-bottom:1px solid rgba(255,255,255,0.06);z-index:1000}
+  .logo img{height:52px;width:auto;object-fit:contain;display:block}
+  .nav-links{display:flex;gap:18px;list-style:none}
+  .nav-links a{font-weight:700;color:var(--text);white-space:nowrap}
+  .nav-links a:hover{color:var(--accent)}
+  .theme-toggle{cursor:pointer;font-size:18px;color:var(--text)}
+
+  /* make nav always-visible and scrollable on small screens */
+  @media(max-width:768px){
+    nav{flex-direction:column;align-items:flex-start;padding:12px 18px}
+    .nav-links{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:14px;width:100%;margin-top:8px;padding-bottom:6px}
+    .nav-links::-webkit-scrollbar{display:none}
+    .theme-toggle{align-self:flex-end;margin-top:6px}
+  }
+
+  /* HERO */
+  header{height:85vh;min-height:520px;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('images/art10.jpeg') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);color:var(--accent);margin-bottom:14px}
+  header p{max-width:760px;font-size:clamp(14px,1.2vw,18px);color:var(--text);margin-bottom:22px}
+
+  .hero-buttons a{display:inline-block;margin:8px;padding:12px 22px;border-radius:999px;font-weight:700}
+  .contact-btn{background:var(--accent);color:var(--bg)}
+  .contact-btn:hover{transform:translateY(-3px);background:#ffc107}
+  .whatsapp-btn{background:#25D366;color:#fff}
+  .whatsapp-btn:hover{background:#1DA851}
+
+  /* SECTIONS */
+  section{padding:56px 18px;max-width:1200px;margin:0 auto;opacity:0;transform:translateY(30px);transition:all .9s ease-out}
+  section.visible{opacity:1;transform:none}
+  section h2{font-family:'Playfair Display',serif;font-size:28px;color:var(--accent);margin-bottom:22px;text-align:center}
+  #about p{max-width:900px;margin:0 auto;color:var(--text);text-align:center}
+
+  /* SERVICES */
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .service-card{background:var(--card);padding:20px;border-radius:12px;text-align:center;font-weight:700;color:var(--accent);cursor:pointer;transition:transform .25s,box-shadow .25s}
+  .service-card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+
+  /* QUICK QUOTE */
+  #quick-quote form{display:flex;flex-direction:column;gap:12px;background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,.25)}
+  #quick-quote select,#quick-quote input,#quick-quote textarea{padding:10px;border-radius:8px;border:none;font-size:15px}
+  #quick-quote button{padding:12px;border-radius:999px;border:none;background:var(--accent);color:var(--bg);font-weight:700;cursor:pointer}
+  #quick-quote button:hover{background:#ffc107}
+
+  /* PORTFOLIO - equal height thumbnails */
+  #portfolio{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .portfolio-item{position:relative;overflow:hidden;border-radius:12px;cursor:pointer}
+  .portfolio-item img{width:100%;height:200px;object-fit:cover;display:block;transition:transform .45s}
+  .portfolio-item:hover img{transform:scale(1.08)}
+  .portfolio-item::after{content:"\f06e";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;font-size:1.6rem;color:var(--accent);top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;transition:opacity .25s}
+  .portfolio-item:hover::after{opacity:1}
+
+  /* CONTACT */
+  #contact form{display:flex;flex-direction:column;gap:12px;background:var(--card);padding:22px;border-radius:12px}
+  #contact input,#contact textarea{padding:12px;border-radius:8px;border:none;font-size:15px}
+  #contact button{padding:12px;border-radius:999px;border:none;background:var(--accent);color:var(--bg);font-weight:700}
+
+  /* FOOTER */
+  footer{padding:28px 18px;background:#0f0f0f;color:var(--muted);margin-top:28px}
+  .footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:18px;align-items:center}
+  .footer-top{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .footer-top h3{color:var(--text);margin-bottom:6px}
+  .socials{display:flex;gap:14px}
+  .socials a{color:var(--text);font-size:18px;display:inline-flex;align-items:center;justify-content:center;padding:8px;border-radius:8px;background:transparent}
+  .socials a:hover{color:var(--accent)}
+  .contacts{color:var(--muted);text-align:center;font-size:14px}
+
+  /* LIGHTBOX */
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);align-items:center;justify-content:center;z-index:1100}
+  #lightbox img{max-width:92%;max-height:92%;border-radius:10px}
+
+  /* BACK TO TOP / WHATSAPP FLOAT */
+  #topBtn{display:none;position:fixed;right:22px;bottom:86px;background:var(--accent);color:var(--bg);border:none;padding:12px;border-radius:999px;cursor:pointer;z-index:1200}
+  .whatsapp-float{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:56px;height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 22px rgba(0,0,0,.25);z-index:1200}
+  .whatsapp-float:hover{transform:translateY(-4px)}
+
+  /* small screens tweaks */
+  @media(max-width:520px){
+    header{padding:22px;height:70vh;min-height:420px}
+    .portfolio-item img{height:150px}
+    .logo img{height:46px}
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- NAV -->
+<nav>
+  <div class="logo" style="color: #FFD700;">Adam's Art</div>
+
+  <ul class="nav-links" role="menubar" aria-label="Main navigation">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#quick-quote">Quick Quote</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <div class="theme-toggle" title="Toggle theme" aria-hidden="false"><i class="fas fa-adjust"></i></div>
+</nav>
+
+<!-- HERO -->
+<header>
+  <h1>Adam's Art & Printing</h1>
+  <p>Transforming ideas into art. Explore unique creations and connect directly for commissions or collaborations.</p>
+  <div class="hero-buttons">
+    <a class="contact-btn" href="#contact">Send a Message</a>
+    <a class="whatsapp-btn" href="https://wa.me/2348027685647" target="_blank" rel="noopener">Chat on WhatsApp</a>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2>About the Artist</h2>
+  <p>Adam is a passionate visual artist who brings imagination to life through vibrant and expressive artworks.
+     Each piece reflects his creativity, vision, and love for storytelling through art.</p>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <h2>Our Services</h2>
+  <div class="services-grid">
+    <div class="service-card">Artworks</div>
+    <div class="service-card">Frames</div>
+    <div class="service-card">T-shirts & Caps</div>
+    <div class="service-card">Mugs</div>
+    <div class="service-card">Branding / Logo</div>
+    <div class="service-card">Posters & Certificates</div>
+    <div class="service-card">Business Cards</div>
+    <div class="service-card">Rubber Stamps</div>
+    <div class="service-card">Flyers & Stickers</div>
+    <div class="service-card">Invitation Cards & Calendars</div>
+    <div class="service-card">Jotters & Signboards</div>
+    <div class="service-card">Other / Custom</div>
+  </div>
+</section>
+
+<!-- QUICK QUOTE -->
+<section id="quick-quote">
+  <h2>Request a Quick Quote</h2>
+  <form action="https://formspree.io/f/xpwlnaya" method="POST">
+    <select name="service" required>
+      <option value="">--Choose a Service--</option>
+      <option>Artworks</option>
+      <option>Frames</option>
+      <option>T-shirts & Caps</option>
+      <option>Mugs</option>
+      <option>Branding / Logo</option>
+      <option>Posters & Certificates</option>
+      <option>Business Cards</option>
+      <option>Rubber Stamps</option>
+      <option>Flyers & Stickers</option>
+      <option>Invitation Cards & Calendars</option>
+      <option>Jotters & Signboards</option>
+      <option>Other / Custom</option>
+    </select>
+    <input type="text" name="name" placeholder="Your name" required>
+    <input type="email" name="email" placeholder="Your email" required>
+    <textarea name="message" rows="3" placeholder="Brief description" required></textarea>
+    <button type="submit">Get Quote</button>
+  </form>
+  <div style="text-align:center;margin-top:12px">
+    <a class="whatsapp-btn" href="https://wa.me/234802685647" target="_blank" rel="noopener">Quick WhatsApp Quote</a>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <h2>Portfolio</h2>
+
+  <div class="portfolio-item"><img src="images/art14.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art01.jpeg" alt="Artwork 2"></div>
+  <div class="portfolio-item"><img src="images/art10.jpeg" alt="Artwork 3"></div>
+  <div class="portfolio-item"><img src="images/art11.jpeg" alt="Artwork 4"></div>
+  <div class="portfolio-item"><img src="images/art12.jpeg" alt="Artwork 5"></div>
+  <div class="portfolio-item"><img src="images/art13.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art15.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art16.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art17.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art18.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art19.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art2.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art3.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art4.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art6.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art5.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art7.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art8.jpeg" alt="Artwork 1"></div>
+  <div class="portfolio-item"><img src="images/art9.jpeg" alt="Artwork 1"></div>
+  
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Contact</h2>
+  <form action="https://formspree.io/f/xpwlnaya" method="POST">
+    <input type="text" name="name" placeholder="Your name" required>
+    <input type="email" name="email" placeholder="Your email" required>
+    <textarea name="message" rows="5" placeholder="Your message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+
+  <div style="text-align:center;margin-top:18px;color:var(--muted)">
+    <div>Email: <a href="mailto:artadam080@gmail.com">artadam080@gmail.com</a></div>
+    <div>Phone: <a href="tel:+2348027685647">+2348027685647</a></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <h3>Adam Art</h3>
+      <p style="color:var(--muted)">Creative Art | Branding | Digital Design</p>
+    </div>
+
+    <div class="socials" aria-label="Social links">
+      <a href="https://www.tiktok.com/@salihuadamu242" target="_blank" rel="noopener" title="TikTok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.instagram.com/adamart2551?igsh=ajM4OHNwMTFpOWtn" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61580179834945" target="_blank" rel="noopener" title="Facebook"><i class="fab fa-facebook"></i></a>
+    </div>
+
+    <div class="contacts" aria-hidden="false">
+      <div>Email: <a href="mailto:artadam080@gmail.com">artadam080@gmail.com</a></div>
+      <div>Phone: <a href="tel:+2348027685647">+2348027685647</a></div>
+    </div>
+
+    <div style="color:var(--muted);font-size:13px;margin-top:10px">&copy; 2025 Adam Art. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox"><img src="" alt="Expanded artwork"></div>
+
+<!-- BACK TO TOP -->
+<button id="topBtn" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+<!-- WHATSAPP FLOAT -->
+<a class="whatsapp-float" href="https://wa.me/2348027685647" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+  // scroll reveal (small)
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.12});
+  sections.forEach(s=>observer.observe(s));
+
+  // portfolio lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.portfolio-item img').forEach(img=>{
+    img.addEventListener('click', ()=>{ lightbox.style.display='flex'; lightboxImg.src = img.src; });
+  });
+  lightbox.addEventListener('click', ()=>{ lightbox.style.display='none'; lightboxImg.src=''; });
+
+  // back to top & whatsapp display
+  const topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', ()=>{
+    const show = window.scrollY > 300;
+    topBtn.style.display = show ? 'block' : 'none';
+  });
+  topBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+  // theme toggle (no persistence)
+  document.querySelector('.theme-toggle').addEventListener('click', ()=>{
+    document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+
+  // prevent focus outline when clicking icons (minor UX)
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mousedown', ()=>el.style.outline='none');
+  });
+</script>
+</body>
+</html>
