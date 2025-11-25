@@ -17,7 +17,20 @@
 
   /* NAV */
   nav{position:sticky;top:0;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;border-bottom:1px solid rgba(255,255,255,0.06);z-index:1000}
-  .logo img{height:52px;width:auto;object-fit:contain;display:block}
+  .logo{
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.logo span{
+  color: var(--text);
+  margin-left: 4px;
+}
   .nav-links{display:flex;gap:18px;list-style:none}
   .nav-links a{font-weight:700;color:var(--text);white-space:nowrap}
   .nav-links a:hover{color:var(--accent)}
@@ -81,6 +94,13 @@
   .socials a{color:var(--text);font-size:18px;display:inline-flex;align-items:center;justify-content:center;padding:8px;border-radius:8px;background:transparent}
   .socials a:hover{color:var(--accent)}
   .contacts{color:var(--muted);text-align:center;font-size:14px}
+  .designed-by{
+  text-align:center;
+  margin-top:12px;
+  font-size:13px;
+  color:var(--muted);
+  opacity:0.85;
+}
 
   /* LIGHTBOX */
   #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);align-items:center;justify-content:center;z-index:1100}
@@ -103,7 +123,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo" style="color: #FFD700;">Adam's Art</div>
+  <div class="logo">Adam’s <span>Art</span></div>
 
   <ul class="nav-links" role="menubar" aria-label="Main navigation">
     <li><a href="#about">About</a></li>
@@ -251,9 +271,7 @@ His creative journey Began since he was 10 but fully accept the call in 2020 and
     <div style="color:var(--muted);font-size:13px;margin-top:10px">&copy; 2025 Adam Art. All rights reserved.</div>
   </div>
 
-  <p style="color:#666; font-size:0.9rem; margin-top:10px;">
-   Designed by Kukuti
-</p>
+  <div class="designed-by">Designed by Kukuti</div>
 </footer>
 
 <!-- LIGHTBOX -->
@@ -304,4 +322,5 @@ His creative journey Began since he was 10 but fully accept the call in 2020 and
 </body>
 
 </html>
+
 
